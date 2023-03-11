@@ -1,5 +1,4 @@
 import "./charInfo.scss";
-import thor from "../../resources/img/thor.jpeg";
 import { useEffect, useState } from "react";
 import MarvelServices from "../services/MarvelServices";
 import Spinner from "../spinner/Spinner";
@@ -15,6 +14,7 @@ const CharInfo = ({ id }) => {
     setLoading(true);
     if (id) ms.getCharacter(id).then(setChatacter).catch(setError);
     setLoading(false);
+    // eslint-disable-next-line
   }, [id]);
 
   const { name, description, imgUrl, homepage, wiki, comics } = character;
@@ -23,6 +23,12 @@ const CharInfo = ({ id }) => {
       <a href={item.resourceURI}>{item.name}</a>
     </li>
   ));
+
+  const noComics = (
+    <li className="char__comics-item">
+      There is no comics with this character
+    </li>
+  );
   return (
     <div className="char__info">
       {loading && <Spinner />}
@@ -48,7 +54,9 @@ const CharInfo = ({ id }) => {
         </>
       )}
       <div className="char__comics">Comics:</div>
-      <ul className="char__comics-list">{comicsList}</ul>
+      <ul className="char__comics-list">
+        {comicsList ? comicsList : noComics}
+      </ul>
     </div>
   );
 };

@@ -45,7 +45,10 @@
     margin-top: 10px;
     &-list {
       position: relative;
+      max-height: 50vh;
       margin-top: 10px;
+      overflow: auto;
+      scrollbar-width: thin;
     }
     &-item {
       width: 100%;

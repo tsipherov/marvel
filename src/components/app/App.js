@@ -4,18 +4,24 @@ import CharList from "../charList/CharList";
 import CharInfo from "../charInfo/CharInfo";
 import decoration from "../../resources/img/vision.png";
 import { useState } from "react";
+import ErrorBoundary from "../errorBoundary/ErrorBoundary";
 
 const App = () => {
   const [charInfoId, setCharInfoId] = useState("");
-  // console.log("charInfoId >>> ", charInfoId);
   return (
     <div className="app">
       <AppHeader />
       <main>
-        <RandomChar />
+        <ErrorBoundary>
+          <RandomChar />
+        </ErrorBoundary>
         <div className="char__content">
-          <CharList selectCharHandler={setCharInfoId} />
-          <CharInfo id={charInfoId} />
+          <ErrorBoundary>
+            <CharList selectCharHandler={setCharInfoId} />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <CharInfo id={charInfoId} />
+          </ErrorBoundary>
         </div>
         <img className="bg-decoration" src={decoration} alt="vision" />
       </main>
