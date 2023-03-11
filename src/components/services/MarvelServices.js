@@ -23,10 +23,11 @@ class MarvelServices {
   };
 
   _transformCharacter = (data) => {
-    const { name, description, thumbnail, urls } = data;
+    const { name, description, thumbnail, urls, id } = data;
     return {
+      id,
       name,
-      description,
+      description: description || "There is no description for this character",
       imgUrl: `${thumbnail.path}.${thumbnail.extension}`,
       homepage: urls[0].url,
       wiki: urls[1].url,

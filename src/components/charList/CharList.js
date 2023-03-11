@@ -1,52 +1,39 @@
-import './charList.scss';
-import abyss from '../../resources/img/abyss.jpg';
+import "./charList.scss";
 
-const CharList = () => {
-    return (
-        <div className="char__list">
-            <ul className="char__grid">
-                <li className="char__item">
-                    <img src={abyss} alt="abyss"/>
-                    <div className="char__name">Abyss</div>
-                </li>
-                <li className="char__item char__item_selected">
-                    <img src={abyss} alt="abyss"/>
-                    <div className="char__name">Abyss</div>
-                </li>
-                <li className="char__item">
-                    <img src={abyss} alt="abyss"/>
-                    <div className="char__name">Abyss</div>
-                </li>
-                <li className="char__item">
-                    <img src={abyss} alt="abyss"/>
-                    <div className="char__name">Abyss</div>
-                </li>
-                <li className="char__item">
-                    <img src={abyss} alt="abyss"/>
-                    <div className="char__name">Abyss</div>
-                </li>
-                <li className="char__item">
-                    <img src={abyss} alt="abyss"/>
-                    <div className="char__name">Abyss</div>
-                </li>
-                <li className="char__item">
-                    <img src={abyss} alt="abyss"/>
-                    <div className="char__name">Abyss</div>
-                </li>
-                <li className="char__item">
-                    <img src={abyss} alt="abyss"/>
-                    <div className="char__name">Abyss</div>
-                </li>
-                <li className="char__item">
-                    <img src={abyss} alt="abyss"/>
-                    <div className="char__name">Abyss</div>
-                </li>
-            </ul>
-            <button className="button button__main button__long">
-                <div className="inner">load more</div>
-            </button>
-        </div>
-    )
-}
+import MarvelServices from "../services/MarvelServices";
+import CharListItem from "../charListItem/CharListItem";
+import { useEffect, useState } from "react";
+
+const CharList = ({ selectCharHandler }) => {
+  const [charList, setCharList] = useState([]);
+  const marvelService = new MarvelServices();
+
+  useEffect(() => {
+    marvelService.getAllCharacters().then(setCharList);
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    selectCharHandler(charList[0]?.id);
+  }, [charList]);
+
+  const characters = charList?.slice(0, 9).map((char) => (
+    <li
+      className="char__item"
+      key={char.id}
+      onClick={() => selectCharHandler(char.id)}
+    >
+      <CharListItem url={char.imgUrl} name={char.name} />
+    </li>
+  ));
+  return (
+    <div className="char__list">
+      <ul className="char__grid">{characters}</ul>
+      <button className="button button__main button__long">
+        <div className="inner">load more</div>
+      </button>
+    </div>
+  );
+};
 
 export default CharList;

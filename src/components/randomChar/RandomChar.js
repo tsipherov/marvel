@@ -15,6 +15,11 @@ class RandomChar extends Component {
 
   componentDidMount() {
     this.updateChar();
+    // this.intervalId = setInterval(this.updateChar, 5000);
+  }
+
+  componentWillUnmount() {
+    // clearInterval(this.intervalId);
   }
 
   marvelService = new MarvelService();
@@ -46,22 +51,20 @@ class RandomChar extends Component {
       error,
     } = this.state;
 
+    const imgStyle = imgUrl?.includes("/image_not_available")
+      ? "randomchar__img fill"
+      : "randomchar__img";
+
     return (
       <div className="randomchar">
         {loading && <Spinner />}
         {!loading && error && <ErrorMessage />}
         {!loading && !error && (
           <div className="randomchar__block">
-            <img
-              src={imgUrl}
-              alt="Random character"
-              className="randomchar__img"
-            />
+            <img src={imgUrl} alt="Random character" className={imgStyle} />
             <div className="randomchar__info">
               <p className="randomchar__name">{name}</p>
-              <p className="randomchar__descr">
-                {description || "There is no description for this character"}
-              </p>
+              <p className="randomchar__descr">{description}</p>
               <div className="randomchar__btns">
                 <a href={homepage} className="button button__main">
                   <div className="inner">homepage</div>
