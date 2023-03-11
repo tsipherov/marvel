@@ -13,10 +13,6 @@ const CharList = ({ selectCharHandler }) => {
     // eslint-disable-next-line
   }, []);
 
-  useEffect(() => {
-    selectCharHandler(charList[0]?.id);
-  }, [charList]);
-
   const characters = charList?.slice(0, 9).map((char) => (
     <li
       className="char__item"

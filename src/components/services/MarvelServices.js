@@ -23,7 +23,7 @@ class MarvelServices {
   };
 
   _transformCharacter = (data) => {
-    const { name, description, thumbnail, urls, id } = data;
+    const { name, description, thumbnail, urls, id, comics } = data;
     return {
       id,
       name,
@@ -31,6 +31,7 @@ class MarvelServices {
       imgUrl: `${thumbnail.path}.${thumbnail.extension}`,
       homepage: urls[0].url,
       wiki: urls[1].url,
+      comics: comics.items,
     };
   };
 }
