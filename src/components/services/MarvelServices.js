@@ -3,8 +3,12 @@ class MarvelServices {
 
   apiKey = "f8a65e3990fbc2d46c94383226ba6e91";
 
-  getResource = async (url = "") => {
-    const combineUrl = `${this.baseUrl}${url}?apikey=${this.apiKey}`;
+  getResource = async (url = "", searchParams = {}) => {
+    const search = Object.keys(searchParams).reduce((acc, key) => {
+      return acc + `${key}=${searchParams[key]}&`;
+    }, "");
+
+    const combineUrl = `${this.baseUrl}${url}?${search}apikey=${this.apiKey}`;
     const res = await fetch(combineUrl);
     if (!res.ok) {
       throw new Error(`Could not fetch ${url}, status ${res.status}`);
@@ -12,8 +16,8 @@ class MarvelServices {
     return await res.json();
   };
 
-  getAllCharacters = async () => {
-    const result = await this.getResource("/characters");
+  getAllCharacters = async (offset = 0, limit = 9) => {
+    const result = await this.getResource("/characters", { offset, limit });
     return result.data.results.map(this._transformCharacter);
   };
 
