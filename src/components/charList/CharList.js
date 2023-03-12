@@ -1,5 +1,5 @@
 import "./charList.scss";
-
+import PropTypes from "prop-types";
 import MarvelServices from "../services/MarvelServices";
 import CharListItem from "../charListItem/CharListItem";
 import { useEffect, useState } from "react";
@@ -58,6 +58,9 @@ const CharList = ({ selectCharHandler }) => {
       </button>
     </div>
   );
+};
+CharList.propTypes = {
+  selectCharHandler: PropTypes.func.isRequired,
 };
 
 export default CharList;

@@ -1,9 +1,10 @@
-import "./charInfo.scss";
 import { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import MarvelServices from "../services/MarvelServices";
 import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
 import Skeleton from "../skeleton/Skeleton";
+import "./charInfo.scss";
 
 const CharInfo = ({ id }) => {
   const [character, setChatacter] = useState({});
@@ -59,6 +60,10 @@ const CharInfo = ({ id }) => {
       </ul>
     </div>
   );
+};
+
+CharInfo.propTypes = {
+  id: PropTypes.number.isRequired,
 };
 
 export default CharInfo;

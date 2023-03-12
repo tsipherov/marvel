@@ -1,6 +1,5 @@
 import React from "react";
-// import abyss from "../../resources/img/abyss.jpg";
-
+import PropTypes from "prop-types";
 const CharListItem = ({ name, url }) => {
   return (
     <>
@@ -9,5 +8,8 @@ const CharListItem = ({ name, url }) => {
     </>
   );
 };
-
+CharListItem.propTypes = {
+  name: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+};
 export default CharListItem;
