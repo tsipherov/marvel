@@ -2,14 +2,14 @@ import "./charList.scss";
 import PropTypes from "prop-types";
 import MarvelServices from "../services/MarvelServices";
 import CharListItem from "../charListItem/CharListItem";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
 
 const CharList = ({ selectCharHandler }) => {
   const [charList, setCharList] = useState([]);
   const [offset, setOffset] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const limit = 9;
   const marvelService = new MarvelServices();
@@ -20,7 +20,6 @@ const CharList = ({ selectCharHandler }) => {
   }, []);
 
   const getListCharacters = () => {
-    setLoading(true);
     marvelService
       .getAllCharacters(offset, limit)
       .then((res) => {
@@ -34,11 +33,31 @@ const CharList = ({ selectCharHandler }) => {
       });
   };
 
-  const characters = charList?.map((char) => (
+  const charRefs = useRef([]);
+
+  const focusOnItem = (id) => {
+    charRefs.current.forEach((item) =>
+      item.classList.remove("char__item_selected")
+    );
+    charRefs.current[id].classList.add("char__item_selected");
+    charRefs.current[id].focus();
+  };
+
+  const characters = charList?.map((char, ind) => (
     <li
       className="char__item"
+      ref={(el) => (charRefs.current[ind] = el)}
       key={char.id}
-      onClick={() => selectCharHandler(char.id)}
+      onClick={() => {
+        selectCharHandler(char.id);
+        focusOnItem(ind);
+      }}
+      onKeyDown={(e) => {
+        if (e.key === " " || e.key === "Enter") {
+          selectCharHandler(char.id);
+          focusOnItem(ind);
+        }
+      }}
     >
       <CharListItem url={char.imgUrl} name={char.name} />
     </li>

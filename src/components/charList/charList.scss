@@ -30,7 +30,8 @@
     }
     &_selected {
       box-shadow: 0 5px 20px $main-color;
-      transform: translateY(-8px);
+      transform: translateY(-8px) scale(1.05);
+      filter: contrast(150%);
     }
   }
   &__name {

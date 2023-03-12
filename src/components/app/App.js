@@ -7,7 +7,7 @@ import { useState } from "react";
 import ErrorBoundary from "../errorBoundary/ErrorBoundary";
 
 const App = () => {
-  const [charInfoId, setCharInfoId] = useState(0);
+  const [charInfoId, setCharInfoId] = useState(null);
   return (
     <div className="app">
       <AppHeader />
