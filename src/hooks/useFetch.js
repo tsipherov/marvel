@@ -12,7 +12,7 @@ export const useFetch = () => {
       headers = { "Content-Type": "application/json" }
     ) => {
       setLoading(true);
-      setError(null);
+      // setError(null);
 
       try {
         const response = await fetch(url, { method, body, headers });
