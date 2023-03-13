@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import MarvelServices from "../services/MarvelServices";
 import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
 import Skeleton from "../skeleton/Skeleton";
 import "./charInfo.scss";
+import MarvelServices from "../../services/MarvelServices";
 
 const CharInfo = ({ id }) => {
   const [character, setChatacter] = useState({});
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const ms = new MarvelServices();
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState(null);
+  const { loading, error, getCharacter } = MarvelServices();
   useEffect(() => {
-    setLoading(true);
-    if (id) ms.getCharacter(id).then(setChatacter).catch(setError);
-    setLoading(false);
+    // setLoading(true);
+    if (id) getCharacter(id).then(setChatacter);
+    // setLoading(false);
     // eslint-disable-next-line
   }, [id]);
 

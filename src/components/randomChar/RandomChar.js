@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import MarvelService from "../services/MarvelServices";
+import MarvelService from "../../services/MarvelServices";
 
 import "./randomChar.scss";
 import mjolnir from "../../resources/img/mjolnir.png";
@@ -8,34 +8,36 @@ import ErrorMessage from "../errorMessage/ErrorMessage";
 
 const RandomChar = () => {
   const [char, setChar] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState(false);
+
+  const { loading, error, getCharacter } = MarvelService();
 
   useEffect(() => {
     updateChar();
-    const intervalId = setInterval(updateChar, 5000);
+    const intervalId = setInterval(updateChar, 10000);
     return () => {
       clearInterval(intervalId);
     };
     // eslint-disable-next-line
   }, []);
 
-  const marvelService = new MarvelService();
+  // const marvelService = new MarvelService();
 
   const onCharLoaded = (char) => {
     setChar(char);
-    setLoading(false);
+    // setLoading(false);
   };
 
-  const onError = (err) => {
-    setLoading(false);
-    setError(true);
-  };
+  // const onError = (err) => {
+  //   setLoading(false);
+  //   setError(true);
+  // };
 
   const updateChar = () => {
-    setLoading(true);
+    // setLoading(true);
     const id = Math.floor(Math.random() * (1011400 - 1011000) + 1011000);
-    marvelService.getCharacter(id).then(onCharLoaded).catch(onError);
+    getCharacter(id).then(onCharLoaded);
   };
 
   const { name, description, imgUrl, homepage, wiki } = char;

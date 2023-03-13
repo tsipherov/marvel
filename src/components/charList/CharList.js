@@ -1,18 +1,20 @@
 import "./charList.scss";
 import PropTypes from "prop-types";
-import MarvelServices from "../services/MarvelServices";
 import CharListItem from "../charListItem/CharListItem";
 import { useEffect, useState, useRef } from "react";
 import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
+import MarvelServices from "../../services/MarvelServices";
 
 const CharList = ({ selectCharHandler }) => {
   const [charList, setCharList] = useState([]);
-  const [offset, setOffset] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const limit = 9;
-  const marvelService = new MarvelServices();
+  const [offset, setOffset] = useState(200);
+  const [isEmpty, setEmpty] = useState(true);
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState(null);
+  // const limit = 9;
+
+  const { loading, error, getAllCharacters } = MarvelServices();
 
   useEffect(() => {
     getListCharacters();
@@ -20,17 +22,12 @@ const CharList = ({ selectCharHandler }) => {
   }, []);
 
   const getListCharacters = () => {
-    marvelService
-      .getAllCharacters(offset, limit)
-      .then((res) => {
-        setLoading(false);
-        setCharList([...charList, ...res]);
-        setOffset(offset + limit);
-      })
-      .catch((err) => {
-        setError(err);
-        setLoading(false);
-      });
+    getAllCharacters(offset).then((res) => {
+      // setLoading(false);
+      setCharList([...charList, ...res]);
+      setEmpty(false);
+      setOffset(offset + res?.length);
+    });
   };
 
   const charRefs = useRef([]);
@@ -65,9 +62,9 @@ const CharList = ({ selectCharHandler }) => {
 
   return (
     <div className="char__list">
-      {loading && <Spinner />}
+      {isEmpty && loading ? <Spinner /> : null}
       {!loading && error && <ErrorMessage />}
-      {!(loading || error) && <ul className="char__grid">{characters}</ul>}
+      <ul className="char__grid">{characters}</ul>
       <button
         disabled={loading}
         className="button button__main button__long"
