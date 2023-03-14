@@ -4,12 +4,13 @@ const MarvelServices = () => {
 
   const _apiKey = "f8a65e3990fbc2d46c94383226ba6e91";
 
-  const limit = 9;
+  const charLimit = 9;
+  const comicsLimit = 16;
 
   const { loading, request, error, clearError } = useFetch();
 
   const getAllCharacters = async (offset = 0) => {
-    const url = `${_baseUrl}/characters?offset=${offset}&limit=${limit}&apikey=${_apiKey}`;
+    const url = `${_baseUrl}/characters?offset=${offset}&limit=${charLimit}&apikey=${_apiKey}`;
     const result = await request(url);
     return result.data.results.map(_transformCharacter);
   };
@@ -20,10 +21,17 @@ const MarvelServices = () => {
     return _transformCharacter(result.data.results[0]);
   };
 
-  const getAllComics = async () => {
-    const url = `${_baseUrl}/comics?apikey=${_apiKey}`;
+  const getAllComics = async (offset = 0) => {
+    const url = `${_baseUrl}/comics?offset=${offset}&limit=${comicsLimit}&apikey=${_apiKey}`;
     const result = await request(url);
     return result.data.results.map(_transformComics);
+  };
+
+  const getComic = async (id) => {
+    const url = `${_baseUrl}/comics/${id}?apikey=${_apiKey}`;
+    const result = await request(url);
+    console.log("original data >>> ", result.data.results[0]);
+    return _transformComics(result.data.results[0]);
   };
 
   const _transformCharacter = (data) => {
@@ -40,15 +48,25 @@ const MarvelServices = () => {
   };
 
   const _transformComics = (data) => {
-    const { title, description, thumbnail, id } = data;
+    const {
+      title,
+      description,
+      thumbnail,
+      id,
+      prices,
+      pageCount,
+      textObjects,
+    } = data;
     return {
       id,
       title,
-      description: description || "There is no description for this character",
+      price: prices[0].price ? `${prices[0].price}$` : "not available",
+      description: description || "There is no description",
       imgUrl: `${thumbnail.path}.${thumbnail.extension}`,
-      // homepage: urls[0].url,
-      // wiki: urls[1].url,
-      // comics: comics.items,
+      pageCount: pageCount
+        ? `${pageCount} pages.`
+        : "No information about the number of pages",
+      language: textObjects[0]?.language || "en-us",
     };
   };
 
@@ -58,6 +76,7 @@ const MarvelServices = () => {
     getAllCharacters,
     getCharacter,
     getAllComics,
+    getComic,
     clearError,
   };
 };

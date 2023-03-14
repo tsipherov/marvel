@@ -9,16 +9,20 @@ import ComicsListItem from "../comicsListItem/ComicsListItem";
 const ComicsList = () => {
   const [comicsList, setComicsList] = useState([]);
   const [isEmpty, setEmpty] = useState(true);
+  const [offset, setOffset] = useState(0);
   const { loading, error, getAllComics, clearError } = MarvelServices();
 
   useEffect(() => {
     // console.log(" Effect");
     getListComics();
+    setEmpty(false);
   }, []);
 
   const getListComics = () => {
-    getAllComics().then(setComicsList);
-    setEmpty(false);
+    getAllComics(offset).then((res) => {
+      setComicsList([...comicsList, ...res]);
+      setOffset(offset + res.length);
+    });
   };
 
   console.log(" body");
@@ -38,7 +42,11 @@ const ComicsList = () => {
       {isEmpty && loading ? <Spinner /> : null}
       {!loading && error && <ErrorMessage />}
       <ul className="comics__grid">{comics}</ul>
-      <button className="button button__main button__long">
+      <button
+        className="button button__main button__long"
+        onClick={getListComics}
+        disabled={loading}
+      >
         <div className="inner">load more</div>
       </button>
     </div>

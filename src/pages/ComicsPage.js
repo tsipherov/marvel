@@ -7,11 +7,11 @@ const ComicsPage = () => {
   return (
     <>
       <AppBanner />
-      <div className="char__content">
-        <ErrorBoundary>
-          <ComicsList />
-        </ErrorBoundary>
-      </div>
+      {/* <div className="char__content"> */}
+      <ErrorBoundary>
+        <ComicsList />
+      </ErrorBoundary>
+      {/* </div> */}
     </>
   );
 };
