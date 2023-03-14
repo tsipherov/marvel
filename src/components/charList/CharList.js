@@ -22,6 +22,7 @@ const CharList = ({ selectCharHandler }) => {
   }, []);
 
   const getListCharacters = () => {
+    console.log("useEffect");
     getAllCharacters(offset).then((res) => {
       // setLoading(false);
       setCharList([...charList, ...res]);
@@ -29,6 +30,7 @@ const CharList = ({ selectCharHandler }) => {
       setOffset(offset + res?.length);
     });
   };
+  console.log("body");
 
   const charRefs = useRef([]);
 
