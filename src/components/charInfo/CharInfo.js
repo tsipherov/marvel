@@ -28,6 +28,8 @@ const CharInfo = ({ id }) => {
       There is no comics with this character
     </li>
   );
+
+  console.log("render CharInfo");
   return (
     <div className="char__info">
       {loading && <Spinner />}
