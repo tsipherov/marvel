@@ -1,9 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import uw from "../../resources/img/UW.png";
 
 const ComicsListItem = ({ comics }) => {
-  //   console.log("comics ... ", title);
   const { imgUrl, title, id, price } = comics;
   return (
     <Link to={`/comics/${id}`}>

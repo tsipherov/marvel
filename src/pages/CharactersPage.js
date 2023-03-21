@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import CharInfo from "../components/charInfo/CharInfo";
 import CharList from "../components/charList/CharList";
+import CharSearchForm from "../components/charSearchForm/CharSearchForm";
 import ErrorBoundary from "../components/errorBoundary/ErrorBoundary";
 import RandomChar from "../components/randomChar/RandomChar";
 import decoration from "../resources/img/vision.png";
@@ -16,9 +17,14 @@ const CharactersPage = () => {
         <ErrorBoundary>
           <CharList selectCharHandler={setCharInfoId} />
         </ErrorBoundary>
-        <ErrorBoundary>
-          <CharInfo id={charInfoId} />
-        </ErrorBoundary>
+        <div>
+          <ErrorBoundary>
+            <CharInfo id={charInfoId} />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <CharSearchForm />
+          </ErrorBoundary>
+        </div>
       </div>
       <img className="bg-decoration" src={decoration} alt="vision" />
     </>

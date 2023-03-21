@@ -10,12 +10,12 @@ const ComicsList = () => {
   const [comicsList, setComicsList] = useState([]);
   const [isEmpty, setEmpty] = useState(true);
   const [offset, setOffset] = useState(0);
-  const { loading, error, getAllComics, clearError } = MarvelServices();
+  const { loading, error, getAllComics } = MarvelServices();
 
   useEffect(() => {
-    // console.log(" Effect");
     getListComics();
     setEmpty(false);
+    // eslint-disable-next-line
   }, []);
 
   const getListComics = () => {
@@ -25,9 +25,9 @@ const ComicsList = () => {
     });
   };
 
-  console.log(" body");
+  // console.log(" body");
 
-  console.log("comicsList >>> ", comicsList);
+  // console.log("comicsList >>> ", comicsList);
 
   const comics = comicsList?.map((comics) => {
     return (

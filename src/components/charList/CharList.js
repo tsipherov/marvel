@@ -11,9 +11,6 @@ const CharList = ({ selectCharHandler }) => {
   const [charList, setCharList] = useState([]);
   const [offset, setOffset] = useState(200);
   const [isEmpty, setEmpty] = useState(true);
-  // const [loading, setLoading] = useState(true);
-  // const [error, setError] = useState(null);
-  // const limit = 9;
 
   const { loading, error, getAllCharacters } = MarvelServices();
 
@@ -23,15 +20,12 @@ const CharList = ({ selectCharHandler }) => {
   }, []);
 
   const getListCharacters = () => {
-    console.log("useEffect");
     getAllCharacters(offset).then((res) => {
-      // setLoading(false);
       setCharList([...charList, ...res]);
       setEmpty(false);
       setOffset(offset + res?.length);
     });
   };
-  console.log("body");
 
   const charRefs = useRef([]);
 
