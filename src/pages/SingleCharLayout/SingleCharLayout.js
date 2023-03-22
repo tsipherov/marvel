@@ -2,8 +2,8 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import "./SingleCharLayout.scss";
 
-const SingleCharLayout = ({ item }) => {
-  const { name, description, imgUrl } = item;
+const SingleCharLayout = ({ data }) => {
+  const { name, description, imgUrl } = data;
 
   return (
     <div className="single-comic">

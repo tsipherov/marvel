@@ -7,7 +7,7 @@ const MarvelServices = () => {
   const charLimit = 9;
   const comicsLimit = 16;
 
-  const { loading, request, error, clearError } = useFetch();
+  const { request, clearError, process, setProcess } = useFetch();
 
   const getAllCharacters = async (offset = 0) => {
     const url = `${_baseUrl}/characters?offset=${offset}&limit=${charLimit}&apikey=${_apiKey}`;
@@ -77,14 +77,14 @@ const MarvelServices = () => {
   };
 
   return {
-    loading,
-    error,
+    clearError,
+    process,
+    setProcess,
     getAllCharacters,
     getCharacterByName,
     getCharacter,
     getAllComics,
     getComic,
-    clearError,
   };
 };
 

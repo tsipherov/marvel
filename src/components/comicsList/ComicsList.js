@@ -1,16 +1,32 @@
 import "./comicsList.scss";
-// import xMen from "../../resources/img/x-men.png";
 import MarvelServices from "../../services/MarvelServices";
 import { useEffect, useState } from "react";
 import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
 import ComicsListItem from "../comicsListItem/ComicsListItem";
 
+export const setContent = (process, Component, isEmpty) => {
+  switch (process) {
+    case "Waiting":
+      return <Spinner />;
+    case "Loading":
+      return isEmpty ? <Spinner /> : <Component />;
+    case "Confirmed":
+      return <Component />;
+    case "Error":
+      return <ErrorMessage />;
+
+    default:
+      throw new Error("Unexpected process state");
+  }
+};
+
 const ComicsList = () => {
   const [comicsList, setComicsList] = useState([]);
   const [isEmpty, setEmpty] = useState(true);
   const [offset, setOffset] = useState(0);
-  const { loading, error, getAllComics } = MarvelServices();
+  const { loading, error, getAllComics, process, setProcess } =
+    MarvelServices();
 
   useEffect(() => {
     getListComics();
@@ -19,10 +35,12 @@ const ComicsList = () => {
   }, []);
 
   const getListComics = () => {
-    getAllComics(offset).then((res) => {
-      setComicsList([...comicsList, ...res]);
-      setOffset(offset + res.length);
-    });
+    getAllComics(offset)
+      .then((res) => {
+        setComicsList([...comicsList, ...res]);
+        setOffset(offset + res.length);
+      })
+      .then(() => setProcess("Confirmed"));
   };
 
   // console.log(" body");
@@ -39,9 +57,9 @@ const ComicsList = () => {
 
   return (
     <div className="comics__list">
-      {isEmpty && loading ? <Spinner /> : null}
-      {!loading && error && <ErrorMessage />}
-      <ul className="comics__grid">{comics}</ul>
+      <ul className="comics__grid">
+        {setContent(process, () => comics, isEmpty)}
+      </ul>
       <button
         className="button button__main button__long"
         onClick={getListComics}

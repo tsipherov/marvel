@@ -7,12 +7,29 @@ import ErrorMessage from "../errorMessage/ErrorMessage";
 import MarvelServices from "../../services/MarvelServices";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
+export const setContent = (process, Component, isEmpty) => {
+  switch (process) {
+    case "Waiting":
+      return <Spinner />;
+    case "Loading":
+      return isEmpty ? <Spinner /> : <Component />;
+    case "Confirmed":
+      return <Component />;
+    case "Error":
+      return <ErrorMessage />;
+
+    default:
+      throw new Error("Unexpected process state");
+  }
+};
+
 const CharList = ({ selectCharHandler }) => {
   const [charList, setCharList] = useState([]);
   const [offset, setOffset] = useState(200);
   const [isEmpty, setEmpty] = useState(true);
 
-  const { loading, error, getAllCharacters } = MarvelServices();
+  const { loading, error, getAllCharacters, process, setProcess } =
+    MarvelServices();
 
   useEffect(() => {
     getListCharacters();
@@ -20,11 +37,13 @@ const CharList = ({ selectCharHandler }) => {
   }, []);
 
   const getListCharacters = () => {
-    getAllCharacters(offset).then((res) => {
-      setCharList([...charList, ...res]);
-      setEmpty(false);
-      setOffset(offset + res?.length);
-    });
+    getAllCharacters(offset)
+      .then((res) => {
+        setCharList([...charList, ...res]);
+        setEmpty(false);
+        setOffset(offset + res?.length);
+      })
+      .then(() => setProcess("Confirmed"));
   };
 
   const charRefs = useRef([]);
@@ -61,11 +80,15 @@ const CharList = ({ selectCharHandler }) => {
 
   return (
     <div className="char__list">
-      {isEmpty && loading ? <Spinner /> : null}
-      {!loading && error && <ErrorMessage />}
-      <ul className="char__grid">
-        <TransitionGroup component={null}>{characters}</TransitionGroup>
-      </ul>
+      {setContent(
+        process,
+        () => (
+          <ul className="char__grid">
+            <TransitionGroup component={null}>{characters}</TransitionGroup>
+          </ul>
+        ),
+        isEmpty
+      )}
       <button
         disabled={loading}
         className="button button__main button__long"
