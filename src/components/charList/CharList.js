@@ -1,7 +1,7 @@
 import "./charList.scss";
 import PropTypes from "prop-types";
 import CharListItem from "../charListItem/CharListItem";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import Spinner from "../spinner/Spinner";
 import ErrorMessage from "../errorMessage/ErrorMessage";
 import MarvelServices from "../../services/MarvelServices";
@@ -78,9 +78,9 @@ const CharList = ({ selectCharHandler }) => {
     </CSSTransition>
   ));
 
-  return (
-    <div className="char__list">
-      {setContent(
+  const content = useMemo(
+    () =>
+      setContent(
         process,
         () => (
           <ul className="char__grid">
@@ -88,7 +88,13 @@ const CharList = ({ selectCharHandler }) => {
           </ul>
         ),
         isEmpty
-      )}
+      ),
+    [process]
+  );
+
+  return (
+    <div className="char__list">
+      {content}
       <button
         disabled={loading}
         className="button button__main button__long"
