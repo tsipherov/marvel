@@ -24,8 +24,9 @@ export const setContent = (process, Component, isEmpty) => {
 };
 
 const CharList = ({ selectCharHandler }) => {
+  const randomOffset = Math.floor(Math.random() * 1400);
   const [charList, setCharList] = useState([]);
-  const [offset, setOffset] = useState(200);
+  const [offset, setOffset] = useState(randomOffset);
   const [isEmpty, setEmpty] = useState(true);
 
   const { loading, getAllCharacters, process, setProcess } = MarvelServices();

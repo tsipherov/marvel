@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import "./charInfo.scss";
 import MarvelServices from "../../services/MarvelServices";
 import { setContent } from "../../utils/setContent";
+import { Link } from "react-router-dom";
 
 const CharInfo = ({ id }) => {
   const [character, setChatacter] = useState({});
@@ -15,7 +16,8 @@ const CharInfo = ({ id }) => {
   }, [id]);
 
   const View = ({ data }) => {
-    const { imgUrl, name, homepage, wiki, description, comics } = data;
+    const { imgUrl, name, homepage, wiki, description, comics, id } = data;
+
     const comicsList = comics?.map((item) => (
       <li className="char__comics-item" key={item.name}>
         <a href={item.resourceURI}>{item.name}</a>
@@ -34,9 +36,9 @@ const CharInfo = ({ id }) => {
           <div>
             <div className="char__info-name">{name}</div>
             <div className="char__btns">
-              <a href={homepage} className="button button__main">
+              <Link to={`/characters/${id}`} className="button button__main">
                 <div className="inner">Home page</div>
-              </a>
+              </Link>
               <a href={wiki} className="button button__secondary">
                 <div className="inner">Wiki</div>
               </a>

@@ -2,15 +2,19 @@ import { useFetch } from "../hooks/useFetch";
 const _baseUrl = process.env.REACT_APP_BASE_URL;
 const _apiKey = process.env.REACT_APP_API_KEY;
 const MarvelServices = () => {
-  const charLimit = 9;
-  const comicsLimit = 16;
+  const charLimit = 30;
+  const comicsLimit = 30;
 
   const { request, clearError, process, setProcess } = useFetch();
 
   const getAllCharacters = async (offset = 0) => {
     const url = `${_baseUrl}/characters?offset=${offset}&limit=${charLimit}&apikey=${_apiKey}`;
-    const result = await request(url);
-    return result.data.results.map(_transformCharacter);
+    const response = await request(url);
+    const result = response.data.results.filter(
+      (item) => !item.thumbnail.path.endsWith("image_not_available")
+    );
+    console.log("result >>>> ", result);
+    return result.map(_transformCharacter);
   };
 
   const getCharacter = async (id) => {
@@ -27,8 +31,12 @@ const MarvelServices = () => {
 
   const getAllComics = async (offset = 0) => {
     const url = `${_baseUrl}/comics?offset=${offset}&limit=${comicsLimit}&apikey=${_apiKey}`;
-    const result = await request(url);
-    return result.data.results.map(_transformComics);
+    const response = await request(url);
+    const result = response.data.results.filter(
+      (item) => !item.thumbnail.path.endsWith("image_not_available")
+    );
+
+    return result.map(_transformComics);
   };
 
   const getComic = async (id) => {

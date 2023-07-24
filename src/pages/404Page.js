@@ -10,8 +10,9 @@ const PageNotFound = () => {
         <title>Page not found</title>
       </Helmet>
       <h1 style={{ textAlign: "center", fontWeight: "bold" }}>
-        Page not found
+        404 PAGE NOT FOUND
       </h1>
+      <h3>404 PAGE NOT FOUND</h3>
       <Link
         style={{
           display: "block",

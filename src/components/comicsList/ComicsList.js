@@ -22,9 +22,10 @@ export const setContent = (process, Component, isEmpty) => {
 };
 
 const ComicsList = () => {
+  const randomOffset = Math.floor(Math.random() * 56000);
   const [comicsList, setComicsList] = useState([]);
   const [isEmpty, setEmpty] = useState(true);
-  const [offset, setOffset] = useState(0);
+  const [offset, setOffset] = useState(randomOffset);
   const { loading, error, getAllComics, process, setProcess } =
     MarvelServices();
 
