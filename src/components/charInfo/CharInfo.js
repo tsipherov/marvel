@@ -7,7 +7,7 @@ import { setContent } from "../../utils/setContent";
 const CharInfo = ({ id }) => {
   const [character, setChatacter] = useState({});
 
-  const { getCharacter, clearError, process, setProcess } = MarvelServices();
+  const { getCharacter, process, setProcess } = MarvelServices();
   useEffect(() => {
     if (id) getCharacter(id).then(setChatacter).then(setProcess("Confirmed"));
 

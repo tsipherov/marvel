@@ -28,8 +28,7 @@ const CharList = ({ selectCharHandler }) => {
   const [offset, setOffset] = useState(200);
   const [isEmpty, setEmpty] = useState(true);
 
-  const { loading, error, getAllCharacters, process, setProcess } =
-    MarvelServices();
+  const { loading, getAllCharacters, process, setProcess } = MarvelServices();
 
   useEffect(() => {
     getListCharacters();
