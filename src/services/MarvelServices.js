@@ -1,9 +1,7 @@
 import { useFetch } from "../hooks/useFetch";
+const _baseUrl = process.env.REACT_APP_BASE_URL;
+const _apiKey = process.env.REACT_APP_API_KEY;
 const MarvelServices = () => {
-  const _baseUrl = "https://gateway.marvel.com:443/v1/public";
-
-  const _apiKey = "f8a65e3990fbc2d46c94383226ba6e91";
-
   const charLimit = 9;
   const comicsLimit = 16;
 
